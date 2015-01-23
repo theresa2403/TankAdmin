@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Tank Admin</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="newTank">Neue Daten anlegen</string>
+    <string name="title_activity_new_data">Erstelle einen neuen Eintrag</string>
+    <string name="date">Datum</string>
+    <string name="tankstelle">Tankstelle</string>
+    <string name="preis_pro_liter">Preis pro Liter in €/l</string>
+    <string name="text_gesamtbetrag">Gesamtbetrag</string>
+    <string name="kilometerstand">Kilometerstand</string>
+
+</resources>
