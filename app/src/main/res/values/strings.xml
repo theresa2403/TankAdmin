@@ -11,5 +11,6 @@
     <string name="preis_pro_liter">Preis pro Liter in €/l</string>
     <string name="text_gesamtbetrag">Gesamtbetrag</string>
     <string name="kilometerstand">Kilometerstand</string>
+    <string name="datum">Datum</string>
 
 </resources>

@@ -12,6 +12,7 @@ public class NewDataActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_data);
+
     }
 
 
@@ -36,4 +37,5 @@ public class NewDataActivity extends Activity {
 
         return super.onOptionsItemSelected(item);
     }
+
 }
