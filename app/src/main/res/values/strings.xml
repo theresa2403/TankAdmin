@@ -12,5 +12,6 @@
     <string name="text_gesamtbetrag">Gesamtbetrag</string>
     <string name="kilometerstand">Kilometerstand</string>
     <string name="datum">Datum</string>
+    <string name="erstellen">Datensatz erstellen</string>
 
 </resources>
