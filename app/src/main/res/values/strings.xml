@@ -8,10 +8,14 @@
     <string name="title_activity_new_data">Erstelle einen neuen Eintrag</string>
     <string name="date">Datum</string>
     <string name="tankstelle">Tankstelle</string>
-    <string name="preis_pro_liter">Preis pro Liter in €/l</string>
+    <string name="liter">Liter</string>
     <string name="text_gesamtbetrag">Gesamtbetrag</string>
     <string name="kilometerstand">Kilometerstand</string>
     <string name="datum">Datum</string>
     <string name="erstellen">Datensatz erstellen</string>
+    <string name="overview">Überblick</string>
+    <string name="title_activity_ueberblick">UeberblickActivity</string>
+    <string name="title_tankdaten">Tankdaten</string>
+    <string name="title_durchschnitt_summen">Durchschnitt und Summen</string>
 
 </resources>
