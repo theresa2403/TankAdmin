@@ -15,8 +15,8 @@ public class TankEintragDbHelper extends SQLiteOpenHelper{
     private static final String REAL_TYPE = " REAL";
     private static final String COMMA_SEP = ",";
     private static final String SQL_CREATE_ENTRIES =
-            "CREATE TABLE " + TankEintrag.TABLE_NAME + " (" +
-                    TankEintrag.COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
+            "CREATE TABLE " + TankEintrag.TABLE_NAME + " ( " +
+                    TankEintrag.COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     TankEintrag.COLUMN_NAME_TANKSTELLE + TEXT_TYPE + COMMA_SEP +
                     TankEintrag.COLUMN_NAME_DATUM + TEXT_TYPE + COMMA_SEP +
                     TankEintrag.COLUMN_NAME_LITER + REAL_TYPE + COMMA_SEP +

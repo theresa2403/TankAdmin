@@ -14,8 +14,14 @@
     <string name="datum">Datum</string>
     <string name="erstellen">Datensatz erstellen</string>
     <string name="overview">Überblick</string>
-    <string name="title_activity_ueberblick">UeberblickActivity</string>
+    <string name="title_activity_ueberblick">Überblick und Summen</string>
     <string name="title_tankdaten">Tankdaten</string>
     <string name="title_durchschnitt_summen">Durchschnitt und Summen</string>
+    <string name="title_activity_display_settings">Einstellungen</string>
+    <string name="zuruecksetzen">Alles zurücksetzen</string>
+    <string name="zuruecksetzen_text">Wollen Sie wirklich alles zurücksetzen? Alle Daten werden dann gelöscht.</string>
+    <string name="dialog_ok">OK</string>
+    <string name="dialog_cancel">Abbrechen</string>
+    <string name="toast_geloescht">Die Datenbank wurde gelöscht.</string>
 
 </resources>

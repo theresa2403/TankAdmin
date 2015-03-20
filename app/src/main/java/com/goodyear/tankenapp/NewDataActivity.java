@@ -27,6 +27,8 @@ public class NewDataActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_data);
 
+
+
     }
 
 
@@ -66,26 +68,23 @@ public class NewDataActivity extends Activity {
         EditText kilometerstand = (EditText) findViewById(R.id.kilometer);
 
         SQLiteDatabase db_tankEintrag = myDbTankEintragHelper.getReadableDatabase();
-        Cursor count = db_tankEintrag.rawQuery("SELECT COUNT(*) FROM " + TankEintrag.TABLE_NAME, null);
-        count.moveToFirst();
-        anzahlEintraege = count.getInt(0);
-        count.close();
+        Cursor cursor_gesamtkm = db_tankEintrag.rawQuery("SELECT " + TankEintrag.COLUMN_NAME_GESAMT_KILOMETER + " FROM " + TankEintrag.TABLE_NAME, null);
+        anzahlEintraege = cursor_gesamtkm.getCount();
 
         if(anzahlEintraege == 0){
             wert_gesamtkilometer = 0;
         } else {
             //gesamtkilometer initialisieren
-            Cursor cursor_gesamtkm = db_tankEintrag.rawQuery("SELECT " + TankEintrag.COLUMN_NAME_GESAMT_KILOMETER + " FROM " + TankEintrag.TABLE_NAME, null);
             cursor_gesamtkm.moveToLast();
             wert_gesamtkilometer = cursor_gesamtkm.getDouble(0);
         }
-
+        cursor_gesamtkm.close();
 
 
         if((tankstelle.getText().length() > 0) && (liter.getText().length() > 0) && (gesamtbetrag.getText().length() > 0) && (kilometerstand.getText().length() > 0)) {
             // Werte in Variablen speichern
             wert_tankstelle = tankstelle.getText().toString();
-            wert_datum = datum.getCalendarView().toString();
+            wert_datum = datum.getDayOfMonth() + "." + datum.getMonth() + "." + datum.getYear();
             wert_liter = Double.parseDouble(liter.getText().toString());
             wert_gesamtbetrag = Double.parseDouble(gesamtbetrag.getText().toString());
             wert_kilometerstand = Double.parseDouble(kilometerstand.getText().toString());
@@ -95,7 +94,7 @@ public class NewDataActivity extends Activity {
             wert_vergangeneTage = 0;
 
 
-            // insert into Database
+            // in Datenbank eintragen
             db_tankEintrag = myDbTankEintragHelper.getWritableDatabase();
 
             ContentValues values_tankEintrag = new ContentValues();

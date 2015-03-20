@@ -1,36 +1,28 @@
 package com.goodyear.tankenapp;
 
 import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.InputStream;
+import android.widget.Toast;
 
 
-public class MainActivity extends Activity {
+public class DisplaySettingsActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
+        setContentView(R.layout.activity_display_settings);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_display_settings, menu);
         return true;
     }
 
@@ -49,20 +41,17 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void createNewData(View view) {
-        Intent intent = new Intent(this, NewDataActivity.class);
-        startActivity(intent);
-    }
-
-    public void ueberblickAnzeigen(View view) {
-        Intent intent = new Intent(this, UeberblickActivity.class);
-        startActivity(intent);
-    }
-
-    // method for menu item "Settings"
-    public boolean changeSettings (MenuItem item) {
-        Intent intent = new Intent(this,DisplaySettingsActivity.class);
-        startActivity(intent);
-        return true;
+    public void zuruecksetzen(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage(R.string.zuruecksetzen_text).setTitle(R.string.zuruecksetzen);
+        builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(),R.string.toast_geloescht, Toast.LENGTH_LONG).show();
+            }
+        });
+        builder.setNegativeButton(R.string.dialog_cancel, null);
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }

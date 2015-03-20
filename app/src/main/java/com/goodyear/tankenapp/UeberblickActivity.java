@@ -1,5 +1,7 @@
 package com.goodyear.tankenapp;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
@@ -7,6 +9,8 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.support.v13.app.FragmentPagerAdapter;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
@@ -16,7 +20,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.goodyear.tankenapp.database.TankEintrag;
+import com.goodyear.tankenapp.database.TankEintragDbHelper;
 
 
 public class UeberblickActivity extends Activity implements ActionBar.TabListener {
@@ -41,11 +54,11 @@ public class UeberblickActivity extends Activity implements ActionBar.TabListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ueberblick);
 
-        // Set up the action bar.
+        // Einstellungen für Action Bar
         final ActionBar actionBar = getActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 
-        // Create the adapter that will return a fragment for each of the three
+        // Create the adapter that will return a fragment for each of the two
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getFragmentManager());
 
@@ -185,6 +198,23 @@ public class UeberblickActivity extends Activity implements ActionBar.TabListene
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_ueberblick, container, false);
+
+            final ListView listView = (ListView) rootView.findViewById(R.id.testList);
+//            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                @Override
+//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                    Toast.makeText(view.getContext(),
+//                            "Click ListItem Number " + position, Toast.LENGTH_LONG)
+//                            .show();
+//                }
+//            });
+
+            TankEintragDbHelper myDbTankEintragHelper = new TankEintragDbHelper(getActivity());
+            SQLiteDatabase db_tankEintrag = myDbTankEintragHelper.getReadableDatabase();
+            Cursor cursor_ueberblick= db_tankEintrag.rawQuery("SELECT id AS _id, *  FROM " + TankEintrag.TABLE_NAME, null);
+            UeberblickAdapter ueberblickAdapter = new UeberblickAdapter(this.getActivity(), cursor_ueberblick);
+
+            listView.setAdapter(ueberblickAdapter);
             return rootView;
         }
     }

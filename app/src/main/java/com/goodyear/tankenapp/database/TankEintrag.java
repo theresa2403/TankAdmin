@@ -8,7 +8,7 @@ import android.provider.BaseColumns;
 public class TankEintrag {
 
         public static final String TABLE_NAME = "tankeintrag";
-        public static final String COLUMN_NAME_ID = "id";
+        public static final String COLUMN_NAME_ID = "_id";
         public static final String COLUMN_NAME_TANKSTELLE = "tankstelle";
         public static final String COLUMN_NAME_DATUM = "datum";
         public static final String COLUMN_NAME_LITER = "liter";
