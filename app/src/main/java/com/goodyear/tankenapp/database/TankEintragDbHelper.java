@@ -13,6 +13,7 @@ public class TankEintragDbHelper extends SQLiteOpenHelper{
     public static final String DATABASE_NAME = "TankAdmin.db";
     private static final String TEXT_TYPE = " TEXT";
     private static final String REAL_TYPE = " REAL";
+    private static final String DATE_TYPE = " DATE";
     private static final String COMMA_SEP = ",";
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + TankEintrag.TABLE_NAME + " ( " +
@@ -21,11 +22,8 @@ public class TankEintragDbHelper extends SQLiteOpenHelper{
                     TankEintrag.COLUMN_NAME_DATUM + TEXT_TYPE + COMMA_SEP +
                     TankEintrag.COLUMN_NAME_LITER + REAL_TYPE + COMMA_SEP +
                     TankEintrag.COLUMN_NAME_GESAMTBETRAG + REAL_TYPE + COMMA_SEP +
-                    TankEintrag.COLUMN_NAME_KILOMETER + REAL_TYPE + COMMA_SEP +
                     TankEintrag.COLUMN_NAME_GESAMT_KILOMETER + REAL_TYPE + COMMA_SEP +
-                    TankEintrag.COLUMN_NAME_PREIS_PRO_LITER + REAL_TYPE + COMMA_SEP +
-                    TankEintrag.COLUMN_NAME_VERBRAUCH + REAL_TYPE + COMMA_SEP +
-                    TankEintrag.COLUMN_NAME_VERGANGENE_TAGE + REAL_TYPE +
+                    TankEintrag.COLUMN_NAME_PREIS_PRO_LITER + REAL_TYPE +
                     " )";
 
     private static final String SQL_DELETE_ENTRIES =

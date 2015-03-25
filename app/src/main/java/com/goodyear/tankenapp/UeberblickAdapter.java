@@ -11,6 +11,12 @@ import android.widget.TextView;
 
 import com.goodyear.tankenapp.database.TankEintrag;
 
+import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
+
 /**
  * Created by Theresa Reus on 19.03.2015.
  */
@@ -41,12 +47,45 @@ public class UeberblickAdapter extends CursorAdapter {
         String datum = cursor.getString(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_DATUM));
         String gesamtkilometer = cursor.getString(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_GESAMT_KILOMETER)) + " km";
         String liter = cursor.getString(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_LITER)) + " l";
-        String kilometer = cursor.getString(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_KILOMETER)) + " km";
-        String ppl = cursor.getString(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_PREIS_PRO_LITER)) + " €/l";
-        String tage = cursor.getString(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_VERGANGENE_TAGE)) + " Tage";
         String tankstelle = cursor.getString(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_TANKSTELLE));
-        String verbrauch = cursor.getString(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_VERBRAUCH)) + "l/100km";
+        String ppl = cursor.getString(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_PREIS_PRO_LITER)) + " €/l";
         String gesamtpreis = cursor.getString(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_GESAMTBETRAG)) + " €";
+
+        String kilometer, tage, verbrauch;
+        if(cursor.isFirst()) {
+            kilometer = "k.A.";
+            tage = "k.A.";
+            verbrauch = "k.A.";
+        } else {
+            DecimalFormat decimalFormat2 = new DecimalFormat("#.00");
+            DecimalFormat decimalFormat1 = new DecimalFormat("#.0");
+
+            double gesamtkilometer_neu = cursor.getDouble(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_GESAMT_KILOMETER));
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date datum_neu = new Date();
+            try {
+                datum_neu = dateFormat.parse(datum);
+            } catch (ParseException e) {
+            }
+            cursor.moveToPrevious();
+            double gesamtkilometer_alt = cursor.getDouble(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_GESAMT_KILOMETER));
+
+            Date datum_alt = new Date();
+            try {
+                datum_alt = dateFormat.parse(cursor.getString(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_DATUM)));
+            } catch (ParseException e) {
+            }
+            double gefahreneKilometer = gesamtkilometer_neu - gesamtkilometer_alt;
+            kilometer = decimalFormat1.format(gefahreneKilometer) + " km";
+
+            long vergangeneTage = TimeUnit.MILLISECONDS.toDays(datum_neu.getTime() - datum_alt.getTime());
+
+            tage = vergangeneTage + " Tage";
+
+            verbrauch = decimalFormat2.format(vergangeneTage / gefahreneKilometer * 100) + " l/100km";
+            cursor.moveToNext();
+        }
+
         // Populate fields with extracted properties
         textview_datum.setText(datum);
         textview_gesamtkilometer.setText(String.valueOf(gesamtkilometer));

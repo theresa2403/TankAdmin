@@ -1,5 +1,6 @@
 package com.goodyear.tankenapp;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -200,18 +201,20 @@ public class UeberblickActivity extends Activity implements ActionBar.TabListene
             View rootView = inflater.inflate(R.layout.fragment_ueberblick, container, false);
 
             final ListView listView = (ListView) rootView.findViewById(R.id.testList);
-//            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//                @Override
-//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                    Toast.makeText(view.getContext(),
-//                            "Click ListItem Number " + position, Toast.LENGTH_LONG)
-//                            .show();
-//                }
-//            });
+            listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                @Override
+                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                    Toast.makeText(view.getContext(),
+                            "Click ListItem Number " + position, Toast.LENGTH_LONG)
+                            .show();
+
+                    return true;
+                }
+            });
 
             TankEintragDbHelper myDbTankEintragHelper = new TankEintragDbHelper(getActivity());
             SQLiteDatabase db_tankEintrag = myDbTankEintragHelper.getReadableDatabase();
-            Cursor cursor_ueberblick= db_tankEintrag.rawQuery("SELECT id AS _id, *  FROM " + TankEintrag.TABLE_NAME, null);
+            Cursor cursor_ueberblick= db_tankEintrag.rawQuery("SELECT *  FROM " + TankEintrag.TABLE_NAME + " ORDER BY " + TankEintrag.COLUMN_NAME_DATUM, null);
             UeberblickAdapter ueberblickAdapter = new UeberblickAdapter(this.getActivity(), cursor_ueberblick);
 
             listView.setAdapter(ueberblickAdapter);
@@ -245,6 +248,52 @@ public class UeberblickActivity extends Activity implements ActionBar.TabListene
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_durchschnitt_summen, container, false);
+            DecimalFormat decimalFormat = new DecimalFormat("#0.00");
+
+            TankEintragDbHelper myDbTankEintragHelper = new TankEintragDbHelper(getActivity());
+            SQLiteDatabase db_tankEintrag = myDbTankEintragHelper.getReadableDatabase();
+            Cursor cursor= db_tankEintrag.rawQuery("SELECT *  FROM " + TankEintrag.TABLE_NAME + " ORDER BY " + TankEintrag.COLUMN_NAME_DATUM, null);
+
+            int gesamtkilometer = 0;
+            double gesamtliter = 0.0;
+            double gesamtkosten = 0.00;
+            double kostenKilometer = 0.00;
+            double literpreis = 0.00;
+            if(!cursor.isLast() && cursor.isFirst()) {
+                double summe_literpreis = 0.00;
+                int anzahl_rows = 0;
+                cursor.moveToLast();
+                gesamtkilometer = cursor.getInt(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_GESAMT_KILOMETER));
+                cursor.moveToFirst();
+                gesamtkilometer -= cursor.getInt(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_GESAMT_KILOMETER));
+
+                while (cursor.moveToNext()) {
+                    gesamtliter += cursor.getDouble(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_LITER));
+                    gesamtkosten += cursor.getDouble(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_GESAMTBETRAG));
+                    summe_literpreis += cursor.getDouble(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_PREIS_PRO_LITER));
+                    anzahl_rows ++;
+                }
+                cursor.moveToFirst();
+
+                kostenKilometer = gesamtkosten/gesamtkilometer;
+                literpreis = summe_literpreis / anzahl_rows;
+            }
+
+            TextView text_gesamtkilometer = (TextView) rootView.findViewById(R.id.sd_kilometer);
+            text_gesamtkilometer.setText(gesamtkilometer + " km");
+
+            TextView text_gesamtliter = (TextView) rootView.findViewById(R.id.sd_gesamtliter);
+            text_gesamtliter.setText(decimalFormat.format(gesamtliter) + " l");
+
+            TextView text_gesamtkosten = (TextView) rootView.findViewById(R.id.sd_gesamtkosten);
+            text_gesamtkosten.setText(decimalFormat.format(gesamtkosten) + " €");
+
+            TextView text_kostenKilometer = (TextView) rootView.findViewById(R.id.sd_kostenKilometer);
+            text_kostenKilometer.setText(decimalFormat.format(kostenKilometer) + " €/km");
+
+            TextView text_ppl = (TextView) rootView.findViewById(R.id.sd_literpreis);
+            text_ppl.setText(decimalFormat.format(literpreis) + " €/l");
+
             return rootView;
         }
     }

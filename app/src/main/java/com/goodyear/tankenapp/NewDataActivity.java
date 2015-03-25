@@ -3,7 +3,6 @@ package com.goodyear.tankenapp;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,15 +11,15 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 
-import com.goodyear.tankenapp.database.DurchschnittUndSummeDbHelper;
 import com.goodyear.tankenapp.database.TankEintrag;
 import com.goodyear.tankenapp.database.TankEintragDbHelper;
+
+import java.text.DecimalFormat;
 
 
 public class NewDataActivity extends Activity {
 
     private TankEintragDbHelper myDbTankEintragHelper = new TankEintragDbHelper(NewDataActivity.this);
-    private DurchschnittUndSummeDbHelper myDbDsHelper = new DurchschnittUndSummeDbHelper(NewDataActivity.this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +54,11 @@ public class NewDataActivity extends Activity {
     }
 
     public void eingabenUeberpruefen(View view) {
-        int anzahlEintraege;
         String wert_tankstelle, wert_datum;
-        double wert_liter, wert_gesamtbetrag, wert_kilometerstand, wert_gesamtkilometer, wert_ppl, wert_verbrauch, wert_vergangeneTage ;
+        double wert_liter, wert_gesamtbetrag, wert_gesamtkilometer, wert_ppl;
+
+        DecimalFormat integerFormat = new DecimalFormat("00");
+        DecimalFormat decimalFormat = new DecimalFormat("#.00");
 
         System.out.println("Eingaben werden überprüft.");
 
@@ -67,46 +68,26 @@ public class NewDataActivity extends Activity {
         EditText gesamtbetrag = (EditText) findViewById(R.id.gesamtbetrag);
         EditText kilometerstand = (EditText) findViewById(R.id.kilometer);
 
-        SQLiteDatabase db_tankEintrag = myDbTankEintragHelper.getReadableDatabase();
-        Cursor cursor_gesamtkm = db_tankEintrag.rawQuery("SELECT " + TankEintrag.COLUMN_NAME_GESAMT_KILOMETER + " FROM " + TankEintrag.TABLE_NAME, null);
-        anzahlEintraege = cursor_gesamtkm.getCount();
-
-        if(anzahlEintraege == 0){
-            wert_gesamtkilometer = 0;
-        } else {
-            //gesamtkilometer initialisieren
-            cursor_gesamtkm.moveToLast();
-            wert_gesamtkilometer = cursor_gesamtkm.getDouble(0);
-        }
-        cursor_gesamtkm.close();
-
-
         if((tankstelle.getText().length() > 0) && (liter.getText().length() > 0) && (gesamtbetrag.getText().length() > 0) && (kilometerstand.getText().length() > 0)) {
             // Werte in Variablen speichern
             wert_tankstelle = tankstelle.getText().toString();
-            wert_datum = datum.getDayOfMonth() + "." + datum.getMonth() + "." + datum.getYear();
+            wert_datum = datum.getYear() + "-" + integerFormat.format(datum.getMonth()+1) + "-" + integerFormat.format(datum.getDayOfMonth());
+            System.out.println(wert_datum);
             wert_liter = Double.parseDouble(liter.getText().toString());
             wert_gesamtbetrag = Double.parseDouble(gesamtbetrag.getText().toString());
-            wert_kilometerstand = Double.parseDouble(kilometerstand.getText().toString());
-            wert_gesamtkilometer += wert_kilometerstand;
+            wert_gesamtkilometer = Double.parseDouble(kilometerstand.getText().toString());
             wert_ppl = wert_gesamtbetrag/wert_liter;
-            wert_verbrauch = 0;
-            wert_vergangeneTage = 0;
-
 
             // in Datenbank eintragen
-            db_tankEintrag = myDbTankEintragHelper.getWritableDatabase();
+            SQLiteDatabase db_tankEintrag = myDbTankEintragHelper.getWritableDatabase();
 
             ContentValues values_tankEintrag = new ContentValues();
             values_tankEintrag.put(TankEintrag.COLUMN_NAME_TANKSTELLE, wert_tankstelle);
             values_tankEintrag.put(TankEintrag.COLUMN_NAME_DATUM, wert_datum);
-            values_tankEintrag.put(TankEintrag.COLUMN_NAME_LITER, wert_liter);
-            values_tankEintrag.put(TankEintrag.COLUMN_NAME_GESAMTBETRAG, wert_gesamtbetrag);
-            values_tankEintrag.put(TankEintrag.COLUMN_NAME_KILOMETER, wert_kilometerstand);
-            values_tankEintrag.put(TankEintrag.COLUMN_NAME_GESAMT_KILOMETER, wert_gesamtkilometer);
-            values_tankEintrag.put(TankEintrag.COLUMN_NAME_PREIS_PRO_LITER, wert_ppl);
-            values_tankEintrag.put(TankEintrag.COLUMN_NAME_VERBRAUCH, wert_verbrauch);
-            values_tankEintrag.put(TankEintrag.COLUMN_NAME_VERGANGENE_TAGE, wert_vergangeneTage);
+            values_tankEintrag.put(TankEintrag.COLUMN_NAME_LITER, decimalFormat.format(wert_liter));
+            values_tankEintrag.put(TankEintrag.COLUMN_NAME_GESAMTBETRAG, decimalFormat.format(wert_gesamtbetrag));
+            values_tankEintrag.put(TankEintrag.COLUMN_NAME_GESAMT_KILOMETER, integerFormat.format(wert_gesamtkilometer));
+            values_tankEintrag.put(TankEintrag.COLUMN_NAME_PREIS_PRO_LITER, decimalFormat.format(wert_ppl));
 
             db_tankEintrag.insert(TankEintrag.TABLE_NAME, null, values_tankEintrag);
             db_tankEintrag.close();

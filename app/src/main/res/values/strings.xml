@@ -10,7 +10,7 @@
     <string name="tankstelle">Tankstelle</string>
     <string name="liter">Liter</string>
     <string name="text_gesamtbetrag">Gesamtbetrag</string>
-    <string name="kilometerstand">Kilometerstand</string>
+    <string name="kilometerstand">Gesamtkilometer</string>
     <string name="datum">Datum</string>
     <string name="erstellen">Datensatz erstellen</string>
     <string name="overview">Überblick</string>
@@ -23,5 +23,13 @@
     <string name="dialog_ok">OK</string>
     <string name="dialog_cancel">Abbrechen</string>
     <string name="toast_geloescht">Die Datenbank wurde gelöscht.</string>
+    <string name="sd_durchschnitt">Durchschnitt</string>
+    <string name="sd_summe">Summe</string>
+    <string name="sd_vergangeneTage_text">Vergangene Tage</string>
+    <string name="sd_literpreis_text">Preis pro Liter</string>
+    <string name="sd_kostenKilometer_text">Kosten pro Kilometer</string>
+    <string name="sd_kilometer_text">gefahrene Kilometer</string>
+    <string name="sd_gesamtkosten_text">Gesamtkosten</string>
+    <string name="sd_gesamtliter_text">Gesamtliter</string>
 
 </resources>

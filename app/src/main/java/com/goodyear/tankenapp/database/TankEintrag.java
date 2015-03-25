@@ -13,10 +13,7 @@ public class TankEintrag {
         public static final String COLUMN_NAME_DATUM = "datum";
         public static final String COLUMN_NAME_LITER = "liter";
         public static final String COLUMN_NAME_GESAMTBETRAG = "gesamtbetrag";
-        public static final String COLUMN_NAME_KILOMETER = "kilometer";
         public static final String COLUMN_NAME_GESAMT_KILOMETER = "gesamtkilometer";
         public static final String COLUMN_NAME_PREIS_PRO_LITER = "ppl";
-        public static final String COLUMN_NAME_VERBRAUCH = "verbrauch";
-        public static final String COLUMN_NAME_VERGANGENE_TAGE = "vergangenetage";
 
 }

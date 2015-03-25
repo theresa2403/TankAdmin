@@ -1,5 +1,91 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:stretchColumns="1">
+    <TableRow>
+        <TextView
+            android:text="@string/sd_durchschnitt"
+            android:layout_span="2"
+            android:padding="3dip"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+    </TableRow>
+    <TableRow>
+        <TextView
+            android:text="@string/sd_vergangeneTage_text"
+            android:padding="3dip"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
+        <TextView
+            android:id="@+id/sd_vergangeneTage"
+            android:gravity="right"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:padding="3dip" />
+    </TableRow>
 
-</LinearLayout>
+    <TableRow>
+        <TextView
+            android:text="@string/sd_literpreis_text"
+            android:padding="3dip"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
+        <TextView
+            android:id="@+id/sd_literpreis"
+            android:gravity="right"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:padding="3dip" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:text="@string/sd_kostenKilometer_text"
+            android:padding="3dip"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
+        <TextView
+            android:id="@+id/sd_kostenKilometer"
+            android:gravity="right"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:padding="3dip" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:text="@string/sd_summe"
+            android:layout_span="2"
+            android:padding="3dip"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:text="@string/sd_kilometer_text"
+            android:padding="3dip"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
+        <TextView
+            android:id="@+id/sd_kilometer"
+            android:gravity="right"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:padding="3dip" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:text="@string/sd_gesamtkosten_text"
+            android:padding="3dip"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
+        <TextView
+            android:id="@+id/sd_gesamtkosten"
+            android:gravity="right"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:padding="3dip" />
+    </TableRow>
+
+    <TableRow>
+        <TextView
+            android:text="@string/sd_gesamtliter_text"
+            android:padding="3dip"
+            android:textAppearance="?android:attr/textAppearanceMedium"/>
+        <TextView
+            android:id="@+id/sd_gesamtliter"
+            android:gravity="right"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:padding="3dip" />
+    </TableRow>
+</TableLayout>
