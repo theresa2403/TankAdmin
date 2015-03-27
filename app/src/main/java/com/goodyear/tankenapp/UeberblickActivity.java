@@ -10,6 +10,8 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.LauncherActivity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.support.v13.app.FragmentPagerAdapter;
@@ -259,13 +261,9 @@ public class UeberblickActivity extends Activity implements ActionBar.TabListene
             double gesamtkosten = 0.00;
             double kostenKilometer = 0.00;
             double literpreis = 0.00;
-            if(!cursor.isLast() && cursor.isFirst()) {
+            if(cursor.getCount()>0) {
                 double summe_literpreis = 0.00;
                 int anzahl_rows = 0;
-                cursor.moveToLast();
-                gesamtkilometer = cursor.getInt(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_GESAMT_KILOMETER));
-                cursor.moveToFirst();
-                gesamtkilometer -= cursor.getInt(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_GESAMT_KILOMETER));
 
                 while (cursor.moveToNext()) {
                     gesamtliter += cursor.getDouble(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_LITER));
@@ -273,7 +271,11 @@ public class UeberblickActivity extends Activity implements ActionBar.TabListene
                     summe_literpreis += cursor.getDouble(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_PREIS_PRO_LITER));
                     anzahl_rows ++;
                 }
-                cursor.moveToFirst();
+
+                // wenn Einstellung zu Start-Gesamtkilometern vorhanden ist, kann man diese noch von der Gesamtkilometerzahl abziehen
+                cursor.moveToLast();
+                gesamtkilometer = cursor.getInt(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_GESAMT_KILOMETER));
+//
 
                 kostenKilometer = gesamtkosten/gesamtkilometer;
                 literpreis = summe_literpreis / anzahl_rows;
@@ -296,6 +298,13 @@ public class UeberblickActivity extends Activity implements ActionBar.TabListene
 
             return rootView;
         }
+    }
+
+    // method for menu item "Settings"
+    public boolean changeSettings (MenuItem item) {
+        Intent intent = new Intent(this,DisplaySettingsActivity.class);
+        startActivity(intent);
+        return true;
     }
 
 }

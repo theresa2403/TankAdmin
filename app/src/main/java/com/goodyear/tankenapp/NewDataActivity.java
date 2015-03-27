@@ -3,18 +3,23 @@ package com.goodyear.tankenapp;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.goodyear.tankenapp.database.TankEintrag;
 import com.goodyear.tankenapp.database.TankEintragDbHelper;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 
 public class NewDataActivity extends Activity {
@@ -26,8 +31,16 @@ public class NewDataActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_data);
 
-
-
+        SQLiteDatabase db_tankEintrag = myDbTankEintragHelper.getWritableDatabase();
+        Cursor cursor= db_tankEintrag.rawQuery("SELECT " + TankEintrag.COLUMN_NAME_TANKSTELLE + " FROM " + TankEintrag.TABLE_NAME + " ORDER BY " + TankEintrag.COLUMN_NAME_DATUM, null);
+        ArrayList<String> liste = new ArrayList<String>();
+        while(cursor.moveToNext()) {
+            liste.add(cursor.getString(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_TANKSTELLE)));
+        }
+        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.test);
+        ArrayAdapter<String> adapter =
+                new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, liste);
+        textView.setAdapter(adapter);
     }
 
 
@@ -96,9 +109,17 @@ public class NewDataActivity extends Activity {
             startActivity(intent);
         } else {
             System.out.println("Es sind nicht alle Daten eingetragen.");
+            Toast.makeText(getApplicationContext(),"Bitte alle Daten eintragen" ,Toast.LENGTH_LONG);
         }
 
 
+    }
+
+    // method for menu item "Settings"
+    public boolean changeSettings (MenuItem item) {
+        Intent intent = new Intent(this,DisplaySettingsActivity.class);
+        startActivity(intent);
+        return true;
     }
 
 }
