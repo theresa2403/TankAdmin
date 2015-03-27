@@ -102,17 +102,17 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"/>
 
-        <AutoCompleteTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="@string/datum"
-            android:id="@+id/test"
-            android:layout_marginTop="32dp"
-            android:labelFor="@+id/kilometer"
-            android:layout_below="@+id/kilometer"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+        <!--<AutoCompleteTextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+            <!--android:text="@string/datum"-->
+            <!--android:id="@+id/test"-->
+            <!--android:layout_marginTop="32dp"-->
+            <!--android:labelFor="@+id/kilometer"-->
+            <!--android:layout_below="@+id/kilometer"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_alignParentStart="true" />-->
 
         <TextView
             android:layout_width="wrap_content"

@@ -37,7 +37,7 @@ public class NewDataActivity extends Activity {
         while(cursor.moveToNext()) {
             liste.add(cursor.getString(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_TANKSTELLE)));
         }
-        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.test);
+        AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.tankstelle);
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, liste);
         textView.setAdapter(adapter);
