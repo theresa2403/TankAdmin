@@ -7,10 +7,12 @@ import java.util.Locale;
 
 import android.app.Activity;
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.LauncherActivity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -27,6 +29,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -200,24 +203,40 @@ public class UeberblickActivity extends Activity implements ActionBar.TabListene
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
+
+            TankEintragDbHelper myDbTankEintragHelper = new TankEintragDbHelper(getActivity());
+            final SQLiteDatabase db_tankEintrag = myDbTankEintragHelper.getReadableDatabase();
+            Cursor cursor_ueberblick= db_tankEintrag.rawQuery("SELECT *  FROM " + TankEintrag.TABLE_NAME + " ORDER BY " + TankEintrag.COLUMN_NAME_DATUM, null);
+            final UeberblickAdapter ueberblickAdapter = new UeberblickAdapter(this.getActivity(), cursor_ueberblick);
+
             View rootView = inflater.inflate(R.layout.fragment_ueberblick, container, false);
 
             final ListView listView = (ListView) rootView.findViewById(R.id.testList);
             listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
                 @Override
-                public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                    Toast.makeText(view.getContext(),
-                            "Click ListItem Number " + position, Toast.LENGTH_LONG)
-                            .show();
+                public boolean onItemLongClick(AdapterView<?> parent, final View view, int position, long id) {
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                    Cursor cursor = (Cursor)parent.getItemAtPosition(position);
+                    final String id_db = cursor.getString(cursor.getColumnIndexOrThrow("_id"));
+
+                    builder.setMessage(R.string.loeschen_text);
+                    builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            db_tankEintrag.delete(TankEintrag.TABLE_NAME, "_id=" + id_db, null);
+                            Toast.makeText(getActivity().getApplicationContext(), R.string.toast_geloescht, Toast.LENGTH_LONG).show();
+                            Intent intent = new Intent(view.getContext(), UeberblickActivity.class);
+                            view.getContext().startActivity(intent);
+                        }
+                    });
+                    builder.setNegativeButton(R.string.dialog_cancel, null);
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
 
                     return true;
                 }
             });
-
-            TankEintragDbHelper myDbTankEintragHelper = new TankEintragDbHelper(getActivity());
-            SQLiteDatabase db_tankEintrag = myDbTankEintragHelper.getReadableDatabase();
-            Cursor cursor_ueberblick= db_tankEintrag.rawQuery("SELECT *  FROM " + TankEintrag.TABLE_NAME + " ORDER BY " + TankEintrag.COLUMN_NAME_DATUM, null);
-            UeberblickAdapter ueberblickAdapter = new UeberblickAdapter(this.getActivity(), cursor_ueberblick);
 
             listView.setAdapter(ueberblickAdapter);
             return rootView;

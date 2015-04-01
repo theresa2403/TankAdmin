@@ -31,5 +31,7 @@
     <string name="sd_kilometer_text">gefahrene Kilometer</string>
     <string name="sd_gesamtkosten_text">Gesamtkosten</string>
     <string name="sd_gesamtliter_text">Gesamtliter</string>
+    <string name="loeschen_text">Möchten Sie diesen Eintrag wirklich löschen?</string>
+    <string name="dialogtoast_geloescht">Eintrag gelöscht.</string>
 
 </resources>

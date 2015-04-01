@@ -32,7 +32,7 @@ public class NewDataActivity extends Activity {
         setContentView(R.layout.activity_new_data);
 
         SQLiteDatabase db_tankEintrag = myDbTankEintragHelper.getWritableDatabase();
-        Cursor cursor= db_tankEintrag.rawQuery("SELECT " + TankEintrag.COLUMN_NAME_TANKSTELLE + " FROM " + TankEintrag.TABLE_NAME + " ORDER BY " + TankEintrag.COLUMN_NAME_DATUM, null);
+        Cursor cursor= db_tankEintrag.rawQuery("SELECT DISTINCT " + TankEintrag.COLUMN_NAME_TANKSTELLE + " FROM " + TankEintrag.TABLE_NAME + " ORDER BY " + TankEintrag.COLUMN_NAME_DATUM, null);
         ArrayList<String> liste = new ArrayList<String>();
         while(cursor.moveToNext()) {
             liste.add(cursor.getString(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_TANKSTELLE)));

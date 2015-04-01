@@ -1,5 +1,6 @@
 package com.goodyear.tankenapp;
 
+import android.app.LauncherActivity;
 import android.content.Context;
 import android.database.Cursor;
 import android.view.KeyEvent;
@@ -7,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.goodyear.tankenapp.database.TankEintrag;
