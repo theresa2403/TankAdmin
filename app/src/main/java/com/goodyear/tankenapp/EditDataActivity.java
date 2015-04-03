@@ -36,12 +36,12 @@ public class EditDataActivity extends Activity {
         final SQLiteDatabase db_tankEintrag = myDbTankEintragHelper.getReadableDatabase();
         Cursor cursor= db_tankEintrag.rawQuery("SELECT *  FROM " + TankEintrag.TABLE_NAME + " WHERE _id=" + id_db, null);
         if(cursor.moveToFirst()) {
-        String datum = cursor.getString(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_DATUM));
-        Double gesamtkilometer = cursor.getDouble(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_GESAMT_KILOMETER));
-        Double liter = cursor.getDouble(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_LITER));
-        String tankstelle = cursor.getString(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_TANKSTELLE));
-        Double gesamtpreis = cursor.getDouble(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_GESAMTBETRAG));
-        String id = cursor.getString(cursor.getColumnIndexOrThrow("_id"));
+            String datum = cursor.getString(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_DATUM));
+            Double gesamtkilometer = cursor.getDouble(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_GESAMT_KILOMETER));
+            Double liter = cursor.getDouble(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_LITER));
+            String tankstelle = cursor.getString(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_TANKSTELLE));
+            Double gesamtpreis = cursor.getDouble(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_GESAMTBETRAG));
+            String id = cursor.getString(cursor.getColumnIndexOrThrow("_id"));
 
             EditText edit_tankstelle = (EditText) findViewById(R.id.edit_tankstelle);
             edit_tankstelle.setText(tankstelle);
