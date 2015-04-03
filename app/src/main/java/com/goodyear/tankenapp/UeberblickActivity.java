@@ -238,6 +238,19 @@ public class UeberblickActivity extends Activity implements ActionBar.TabListene
                 }
             });
 
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Cursor cursor = (Cursor)parent.getItemAtPosition(position);
+                    String id_db = cursor.getString(cursor.getColumnIndexOrThrow("_id"));
+                    Intent intent = new Intent(view.getContext(), EditDataActivity.class);
+                    Bundle b = new Bundle();
+                    b.putString("id_db", id_db); //Your id
+                    intent.putExtras(b); //Put your id to your next Intent
+                    startActivity(intent);
+                }
+            });
+
             listView.setAdapter(ueberblickAdapter);
             return rootView;
         }

@@ -33,5 +33,7 @@
     <string name="sd_gesamtliter_text">Gesamtliter</string>
     <string name="loeschen_text">Möchten Sie diesen Eintrag wirklich löschen?</string>
     <string name="dialogtoast_geloescht">Eintrag gelöscht.</string>
+    <string name="title_activity_edit_data">Datensatz bearbeiten</string>
+    <string name="speichern">Änderungen speichern</string>
 
 </resources>

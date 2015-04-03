@@ -42,6 +42,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.goodyear.tankenapp.MainActivity" />
         </activity>
+        <activity
+            android:name=".EditDataActivity"
+            android:label="@string/title_activity_edit_data"
+            android:parentActivityName=".NewDataActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.goodyear.tankenapp.UeberblickActivity" />
+        </activity>
     </application>
 
 </manifest>
