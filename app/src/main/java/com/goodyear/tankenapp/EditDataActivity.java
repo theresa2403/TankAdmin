@@ -128,7 +128,7 @@ public class EditDataActivity extends Activity {
 
             db_tankEintrag.update(TankEintrag.TABLE_NAME,values_tankEintrag,"_id="+id_db,null);
             db_tankEintrag.close();
-
+            finish();
             Intent intent = new Intent(this, UeberblickActivity.class);
             startActivity(intent);
         } else {

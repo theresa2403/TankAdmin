@@ -105,6 +105,7 @@ public class NewDataActivity extends Activity {
             db_tankEintrag.insert(TankEintrag.TABLE_NAME, null, values_tankEintrag);
             db_tankEintrag.close();
 
+            finish();
             Intent intent = new Intent(this, MainActivity.class);
             startActivity(intent);
         } else {
