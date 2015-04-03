@@ -3,11 +3,15 @@ package com.goodyear.tankenapp;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+
+import com.goodyear.tankenapp.database.TankEintrag;
+import com.goodyear.tankenapp.database.TankEintragDbHelper;
 
 
 public class DisplaySettingsActivity extends Activity {
@@ -47,6 +51,9 @@ public class DisplaySettingsActivity extends Activity {
         builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                TankEintragDbHelper myDbTankEintragHelper = new TankEintragDbHelper(getApplicationContext());
+                SQLiteDatabase db_tankEintrag = myDbTankEintragHelper.getWritableDatabase();
+                db_tankEintrag.execSQL("DELETE FROM " + TankEintrag.TABLE_NAME);
                 Toast.makeText(getApplicationContext(),R.string.toast_geloescht, Toast.LENGTH_LONG).show();
             }
         });
