@@ -1,9 +1,13 @@
 package com.goodyear.tankenapp;
 
 import java.text.DecimalFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import android.app.Activity;
 import android.app.ActionBar;
@@ -293,9 +297,11 @@ public class UeberblickActivity extends Activity implements ActionBar.TabListene
             double gesamtkosten = 0.00;
             double kostenKilometer = 0.00;
             double literpreis = 0.00;
+            long vergangeneTage = 0;
             if(cursor.getCount()>0) {
                 double summe_literpreis = 0.00;
                 int anzahl_rows = 0;
+                String lastDate, firstDate;
 
                 while (cursor.moveToNext()) {
                     gesamtliter += cursor.getDouble(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_LITER));
@@ -304,14 +310,33 @@ public class UeberblickActivity extends Activity implements ActionBar.TabListene
                     anzahl_rows ++;
                 }
 
-                // wenn Einstellung zu Start-Gesamtkilometern vorhanden ist, kann man diese noch von der Gesamtkilometerzahl abziehen
                 cursor.moveToLast();
                 gesamtkilometer = cursor.getInt(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_GESAMT_KILOMETER));
+                lastDate = cursor.getString(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_DATUM));
+
+                cursor.moveToFirst();
+                firstDate = cursor.getString(cursor.getColumnIndexOrThrow(TankEintrag.COLUMN_NAME_DATUM));
+
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date datum_first = new Date();
+                Date datum_last = new Date();
+                try {
+                    datum_first = dateFormat.parse(firstDate);
+                    datum_last = dateFormat.parse(lastDate);
+                } catch (ParseException e) {
+                }
+
+                vergangeneTage = (long) (TimeUnit.MILLISECONDS.toDays(datum_last.getTime() - datum_first.getTime()))/(anzahl_rows-1);
+
 //
 
                 kostenKilometer = gesamtkosten/gesamtkilometer;
                 literpreis = summe_literpreis / anzahl_rows;
             }
+
+
+            TextView text_vergangeneTage = (TextView) rootView.findViewById(R.id.sd_vergangeneTage);
+            text_vergangeneTage.setText(vergangeneTage + " Tage");
 
             TextView text_gesamtkilometer = (TextView) rootView.findViewById(R.id.sd_kilometer);
             text_gesamtkilometer.setText(gesamtkilometer + " km");
