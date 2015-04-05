@@ -325,8 +325,9 @@ public class UeberblickActivity extends Activity implements ActionBar.TabListene
                     datum_last = dateFormat.parse(lastDate);
                 } catch (ParseException e) {
                 }
-
-                vergangeneTage = (long) (TimeUnit.MILLISECONDS.toDays(datum_last.getTime() - datum_first.getTime()))/(anzahl_rows-1);
+                if(anzahl_rows>1) {
+                    vergangeneTage = (long) (TimeUnit.MILLISECONDS.toDays(datum_last.getTime() - datum_first.getTime())) / (anzahl_rows - 1);
+                }
 
 //
 
